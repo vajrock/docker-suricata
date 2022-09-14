@@ -5,7 +5,7 @@
 set -e
 
 if [ "${REPO}" = "" ]; then
-    REPO="docker.io/jasonish/suricata"
+    REPO="docker.io/vajrock/suricata"
 fi
 
 MAJOR=$(basename $(pwd))
