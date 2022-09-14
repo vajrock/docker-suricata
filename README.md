@@ -11,8 +11,8 @@ Specific version tags also exist for versions 4.1.5 and newer.
 
 Examples:
 
-    docker pull jasonish/suricata:latest
-    docker pull jasonish/suricata:6.0.4
+    docker pull vajrock/suricata:latest
+    docker pull vajrock/suricata:6.0.4
 
 The images are rebuilt and pushed to Docker Hub daily to ensure they
 are using the most up to date packages of the base OS, and in the case
@@ -25,8 +25,8 @@ you need to pull the image for a specific architecture you can do so by
 selecting a tag with an architecture in the name, for example:
 
 ```
-docker pull jasonish/suricata:latest-amd64
-docker pull jasonish/suricata:6.0.4-arm64v8
+docker pull vajrock/suricata:latest-amd64
+docker pull vajrock/suricata:6.0.4-arm64v8
 ```
 
 ## Alternate Registry
@@ -35,7 +35,7 @@ In addition to Docker Hub, these containers are also pushed to quay.io and can
 be pulled like:
 
 ```
-docker pull quay.io/jasonish/suricata:latest
+docker pull quay.io/vajrock/suricata:latest
 ```
 
 ## Usage
@@ -46,7 +46,7 @@ inside a container:
 
     docker run --rm -it --net=host \
         --cap-add=net_admin --cap-add=net_raw --cap-add=sys_nice \
-        jasonish/suricata:latest -i <interface>
+        vajrock/suricata:latest -i <interface>
 
 But you will probably want to see what Suricata logs, so you may want
 to start it like:
@@ -54,7 +54,7 @@ to start it like:
     docker run --rm -it --net=host \
         --cap-add=net_admin --cap-add=net_raw --cap-add=sys_nice \
         -v $(pwd)/logs:/var/log/suricata \
-		jasonish/suricata:latest -i <interface>
+		vajrock/suricata:latest -i <interface>
 
 which will map the logs directory (in your current directory) to the
 Suricata log directory in the container so you can view the Suricata
@@ -72,13 +72,13 @@ Docker example:
 
     docker run --rm -it --net=host \
         --cap-add=net_admin --cap-add=net_raw --cap-add=sys_nice \
-        jasonish/suricata:latest -i eth0
+        vajrock/suricata:latest -i eth0
 
 Podman example:
 
     sudo podman run --rm -it --net=host \
         --cap-add=net_admin,net_raw,sys_nice \
-        jasonish/suricata:latest -i eth0
+        vajrock/suricata:latest -i eth0
 
 Note that with `podman` adding the capabilities is mandatory.
 
@@ -90,7 +90,7 @@ For example:
 
 - Start the Suricata container with a name:
 
-        docker run -it --net=host --name=suricata jasonish/suricata -i enp3s0
+        docker run -it --net=host --name=suricata vajrock/suricata -i enp3s0
 
 - Start a second container with `--volumes-from`:
 
@@ -132,7 +132,7 @@ be done by setting the PUID and PGID environment variables. For
 example:
 
     docker run -e PUID=$(id -u) -e PGID=$(id -g)
-    
+
 which will result in the bind mounts being owned by the user starting
 the Docker container.
 
@@ -143,7 +143,7 @@ host bind mount for the configuration directory, `/etc/suricata`. It
 will be populated on the first run of the container. For example:
 
     mkdir ./etc
-    docker run --rm -it -v $(pwd)/etc:/etc/suricata jasonish/suricata:latest -V
+    docker run --rm -it -v $(pwd)/etc:/etc/suricata vajrock/suricata:latest -V
 
 When the container exits, `./etc` will be populated with the default
 configuration files normally found in `/etc/suricata`.
@@ -161,7 +161,7 @@ volume in subsequent runs of Suricata. For example:
     docker run --rm -it --net=host \
         -v $(pwd)/etc:/etc/suricata \
         --cap-add=net_admin --cap-add=net_raw --cap-add=sys_nice \
-        jasonish/suricata:latest -i eth0
+        vajrock/suricata:latest -i eth0
 
 ## Environment Variables
 
@@ -171,7 +171,7 @@ The `SURICATA_OPTIONS` environment variable can be used to pass command line
 options to Suricata. For example:
 
 ```
-docker run --net=host -e SURICATA_OPTIONS="-i eno1 -vvv" jasonish/suricata:latest
+docker run --net=host -e SURICATA_OPTIONS="-i eno1 -vvv" vajrock/suricata:latest
 ```
 
 ## Suricata-Update
@@ -183,7 +183,7 @@ In one terminal, start Suricata:
 
     docker run --name=suricata --rm -it --net=host \
         --cap-add=net_admin --cap-add=net_raw --cap-add=sys_nice \
-        jasonish/suricata:latest -i eth0
+        vajrock/suricata:latest -i eth0
 
 Then in another terminal:
 
@@ -210,7 +210,7 @@ Running with an empty volume at `/etc/suricata/suricata.yaml` will generate
 default configuration files. Example:
 
 ```
-docker run --rm -it -v $(pwd)/etc:/etc/suricata jasonish/suricata:latest -V
+docker run --rm -it -v $(pwd)/etc:/etc/suricata vajrock/suricata:latest -V
 ```
 
 This will leave you with a directory containing the default configuration files
